@@ -38,10 +38,10 @@ stockSchema.methods.like = function () {
   });
 }
 
-stockSchema.post('save', function(doc) {
+/* stockSchema.post('save', function(doc) {
   console.log('%s has been saved', doc._id);
 });
-
+ */
 
 var Stock = mongoose.model('Stock', stockSchema);
 

@@ -25,11 +25,11 @@ module.exports = function (app) {
 
   app.route('/api/stock-prices')
     .get((req, res) => {
-      const ip = (req.headers['x-forwarded-for'] || req.connection.remoteAddress || '').split(',')[0].trim();
-      console.log("IP", ip);
+      /* const ip = (req.headers['x-forwarded-for'] || req.connection.remoteAddress || '').split(',')[0].trim();
+      console.log("IP", ip); */
       const { stock, like } = req.query;
       if(!stock) return res.sendStatus(400);
-      alpha.data.batch([stock])
+      alpha.data.batch(typeof stock === "array" ? stock : [ stock ] )
       .then(data => {
         let stockData = data["Stock Quotes"];
         if (stockData.length===0) return res.status(400).send("Bad request. Invalid stock ticker.");
@@ -51,13 +51,11 @@ module.exports = function (app) {
           if(err.message === "not liked") return;
           else {
             res.status(500).send("Transaction error");
-            throw err;
           }
         })
       })
       .catch(err => {
-        res.status(500).send("API error");
-        throw err;
+        res.status(500).send("API error. "+err.message);
       });
     });
 
