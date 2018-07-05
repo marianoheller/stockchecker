@@ -9,7 +9,12 @@
 'use strict';
 var expect = require('chai').expect;
 var MongoClient = require('mongodb');
-var alpha = require('alphavantage')({ key: process.env.API_KEY });
+var alpha = require('alphavantage')({ 
+  key: process.env.API_KEY,
+  requestOpts: {
+    timeout: 1000,
+  },
+});
 
 var Stock = require('../models/stock');
 /* 

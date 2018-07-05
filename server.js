@@ -5,6 +5,7 @@ var bodyParser  = require('body-parser');
 var expect      = require('chai').expect;
 var cors        = require('cors');
 var mongoose    = require('mongoose');
+var helmet      = require('helmet');
 
 var apiRoutes         = require('./routes/api.js');
 var fccTestingRoutes  = require('./routes/fcctesting.js');
@@ -15,16 +16,23 @@ var app = express();
 app.use('/public', express.static(process.cwd() + '/public'));
 
 app.use(cors({origin: '*'})); //For FCC testing purposes only
+app.use(helmet.contentSecurityPolicy({
+  directives: {
+    defaultSrc: ["'self'"],
+    styleSrc: ["'self'"],
+    scriptSrc: ["'self'"],
+  }
+}))
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-try {
-  mongoose.connect(process.env.DB);  
-} catch( e ) {
-  console.log(e.message);
-  return;
-}
+mongoose.connect(process.env.DB,{
+  socketTimeoutMS: 10000,
+}).then(
+  () => { console.log("Connected to DB succesfully!") },
+  err => { console.log("Error connecting to the DB.", err.message); }
+);
 
 //Index page (static HTML)
 app.route('/')
