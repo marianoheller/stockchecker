@@ -116,7 +116,7 @@ suite('Functional Tests', function() {
         .end(function(err, res) {
           assert.equal(err, null, "err is not null");
           assert.equal(res.status, 200, "res status with error");
-          assert.equal(res.body.stockData.constructor, Array, "stockData wrong type");
+          assert.equal(Array.isArray(res.body.stockData), true, "stockData wrong type");
           res.body.stockData.forEach(s => {
             assert.equal(typeof s.price, "string", "no price prop in stockData");
             assert.equal(typeof s.stock, "string", "no stock prop in stockData");
