@@ -6,6 +6,7 @@ var expect      = require('chai').expect;
 var cors        = require('cors');
 var mongoose    = require('mongoose');
 var helmet      = require('helmet');
+var morgan      = require('morgan');
 
 var apiRoutes         = require('./routes/api.js');
 var fccTestingRoutes  = require('./routes/fcctesting.js');
@@ -15,6 +16,7 @@ var app = express();
 
 app.use('/public', express.static(process.cwd() + '/public'));
 
+app.use(morgan('combined'));
 app.use(cors({origin: '*'})); //For FCC testing purposes only
 app.use(helmet.contentSecurityPolicy({
   directives: {

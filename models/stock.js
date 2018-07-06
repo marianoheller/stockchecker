@@ -12,28 +12,46 @@ var stockSchema = new Schema({
 
 
 
-stockSchema.statics.findOneOrCreateBySymbol = function findOneOrCreateBySymbol(symbol, price) {
-  const self = this;
+stockSchema.statics.clearIpTables = function clearIpTables(symbol) {
+  if(Array.isArray(symbol)) {
+    return Promise.all(symbol.map(s => new Promise((resolve, reject) => {
+      this.findOneAndUpdate({ symbol: s.toUpperCase() }, { ips: [] }, err => {
+        if(err) reject(err);
+        resolve();
+      })
+    })))
+  }
   return new Promise((resolve, reject) => {
-    self.findOne({ symbol }, (err, result) => {
+    this.findOneAndUpdate({ symbol: symbol.toUpperCase() }, { ips: [] }, err => {
+      if(err) reject(err);
+      resolve();
+    })
+  });
+}
+
+stockSchema.statics.findOneOrCreateBySymbol = function findOneOrCreateBySymbol(symbol, price) {
+  return new Promise((resolve, reject) => {
+    this.findOne({ symbol: symbol.toUpperCase() }, (err, result) => {
+      if(err) return reject(err);
       if(result) {
         result.price = price;
         result.save((err, doc) => {
           if(err) return reject(err);
           resolve(doc);
         })
-      };
-      self.create({ symbol, price }, (err, result) => {
-        if(err) return reject(err);
-        resolve(result);
-      });
+      } else {
+        this.create({ symbol, price }, (err, result) => {
+          if(err) return reject(err);
+          resolve(result);
+        });
+      }
     });
   });
 }
 
 stockSchema.methods.like = function (ip) {
   return new Promise((resolve, reject) => {
-    if(this.ips.find(ipOld => ipOld===ip)) return resolve(this);
+    if(this.ips.find(ipOld => ipOld==ip)) return resolve(this);
     this.likes++;
     this.ips.push(ip);
     this.save((err, doc) => {
