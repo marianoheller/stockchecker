@@ -16,7 +16,7 @@ var app = express();
 
 app.use('/public', express.static(process.cwd() + '/public'));
 
-app.use(morgan('combined'));
+/* app.use(morgan('combined')); */
 app.use(cors({origin: '*'})); //For FCC testing purposes only
 app.use(helmet.contentSecurityPolicy({
   directives: {

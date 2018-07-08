@@ -52,7 +52,8 @@ module.exports = function (app) {
       })
     })
     .catch(err => {
-      res.status(500).send("Alphavantage API error");
+      console.error(err);
+      res.status(500).send(err);
     });
   });
 

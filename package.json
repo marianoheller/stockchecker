@@ -4,7 +4,8 @@
 	"description": "What am I about?",
 	"main": "server.js",
 	"scripts": {
-		"start": "node server.js"
+		"start": "node server.js",
+    "test": "mocha --ui tdd tests/*.js"
 	},
 	"dependencies": {
 		"alphavantage": "^1.1.1",
