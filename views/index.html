@@ -55,32 +55,7 @@
     </div>
     <hr id="divisor2">
     <!-- Your web-app is https, so your scripts need to be too -->
-    <script src="./public/jquery-2.2.1.min.js" />
-    <script>
-      $(function() {
-        $('#testForm').submit(function(e) {
-          $.ajax({
-            url: '/api/stock-prices',
-            type: 'get',
-            data: $('#testForm').serialize(),
-            success: function(data) {
-              $('#jsonResult').text(JSON.stringify(data));
-            }
-          });
-          e.preventDefault();
-        });
-        $('#testForm2').submit(function(e) {
-          $.ajax({
-            url: '/api/stock-prices',
-            type: 'get',
-            data: $('#testForm2').serialize(),
-            success: function(data) {
-              $('#jsonResult').text(JSON.stringify(data));
-            }
-          });
-          e.preventDefault();
-        });
-      });
-   </script>
+    <script src="./public/jquery-2.2.1.min.js"></script>
+    <script src="./public/myScripts.js"></script>
   </body>
 </html>
