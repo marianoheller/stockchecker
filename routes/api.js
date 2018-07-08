@@ -19,6 +19,11 @@ var alpha = require('alphavantage')({
 var Stock = require('../models/stock');
 
 
+/**
+ * https://www.quandl.com/api/v3/datatables/SHARADAR/SF1.json?ticker=goog&api_key=MY_API_KEY
+ * Or something like that, not sure, doesnt work
+ */
+
 module.exports = function (app) {
 
   app.route('/api/stock-prices')

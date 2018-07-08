@@ -11,7 +11,7 @@ var chai = require('chai');
 var assert = chai.assert;
 var server = require('../server');
 
-const DELAY_MS = 10000;
+const DELAY_MS = 0;
 
 chai.use(chaiHttp);
 
@@ -27,7 +27,8 @@ const clearIpTable = symbol => new Promise((resolve, reject) => {
 
 const delay = ms => (
   new Promise((resolve, reject) => {
-    console.log(`Waiting... (${ms})`)
+    if(!ms) return resolve();
+    console.log(`Waiting... (${ms})`);
     setTimeout(() => {
      resolve(); 
     }, ms)
