@@ -27,7 +27,8 @@ const clearIpTable = symbol => new Promise((resolve, reject) => {
 
 const delay = ms => (
   new Promise((resolve, reject) => {
-    console.log(`Waiting... (${ms})`)
+    if(!ms) return resolve();
+    console.log(`Waiting... (${ms})`);
     setTimeout(() => {
      resolve(); 
     }, ms)
